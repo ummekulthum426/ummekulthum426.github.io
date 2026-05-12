@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umme Kulthum | IT Student</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root {
+  --bg:       #f5f0ff;
+  --bg2:      #eef6ff;
+  --surface:  #ffffff;
+  --surface2: #fdf6ff;
+  --pink:     #f2a8c4;
+  --lavender: #c8b8f8;
+  --mint:     #a8e6d0;
+  --sky:      #a8d4f8;
+  --peach:    #f8c8a8;
+  --text:     #2d2340;
+  --muted:    #7a6e8a;
+  --border:   #e2d8f0;
+  --mono:     'JetBrains Mono', monospace;
+  --sans:     'Sora', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Dot-grid background */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image: radial-gradient(circle, #c8b8f8 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.35;
+  pointer-events:none; z-index:0;
+}
+
+/* Blobs */
+.blob {
+  position:fixed; border-radius:50%;
+  filter:blur(80px); pointer-events:none; z-index:0;
+  animation:drift 12s ease-in-out infinite alternate;
+}
+.blob1{width:380px;height:380px;background:rgba(200,184,248,0.35);top:-80px;left:-80px;animation-duration:14s;}
+.blob2{width:300px;height:300px;background:rgba(168,212,248,0.3);top:40%;right:-60px;animation-duration:11s;}
+.blob3{width:260px;height:260px;background:rgba(168,230,208,0.3);bottom:-60px;left:30%;animation-duration:16s;}
+@keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(30px,20px) scale(1.08);}}
+
+/* NAV */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:1rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(245,240,255,0.82);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo {
+  font-family:var(--mono);font-size:0.85rem;font-weight:700;
+  color:var(--text);text-decoration:none;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.nav-logo .bracket{color:var(--lavender);}
+.nav-logo .ndot{width:8px;height:8px;border-radius:50%;background:var(--mint);display:inline-block;animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.7;}}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{
+  font-family:var(--mono);font-size:0.72rem;
+  color:var(--muted);text-decoration:none;
+  letter-spacing:0.08em;text-transform:uppercase;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--text);}
+
+/* HERO */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:9rem 3rem 5rem;
+  max-width:1100px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.hero-pre{
+  font-family:var(--mono);font-size:0.75rem;
+  color:var(--muted);letter-spacing:0.15em;margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:0.6rem;
+}
+.hero-pre::before{content:'';width:24px;height:1px;background:var(--lavender);display:inline-block;}
+h1{
+  font-family:var(--mono);
+  font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:700;line-height:1.08;letter-spacing:-0.02em;
+  margin-bottom:1.5rem;
+}
+.h1-dim{color:var(--muted);font-weight:300;}
+.h1-pink{color:#c47bb0;}
+.h1-blue{color:#5b8fd4;}
+.h1-green{color:#4faa8a;}
+.hero-sub{
+  font-size:1rem;color:var(--muted);
+  max-width:520px;margin-bottom:2.5rem;
+  font-weight:300;line-height:1.9;
+}
+.hero-sub strong{color:var(--text);font-weight:600;}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
+
+.btn{
+  font-family:var(--mono);font-size:0.75rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.8rem 1.6rem;text-decoration:none;
+  border-radius:6px;transition:all 0.2s;
+  display:inline-block;font-weight:600;
+}
+.btn-primary{background:var(--text);color:var(--bg);}
+.btn-primary:hover{background:#3d3060;transform:translateY(-2px);}
+.btn-outline{border:1.5px solid var(--border);color:var(--muted);background:rgba(255,255,255,0.6);}
+.btn-outline:hover{border-color:var(--lavender);color:var(--text);}
+
+.specialisms{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.chip{
+  font-family:var(--mono);font-size:0.68rem;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.35rem 0.8rem;border-radius:20px;
+  font-weight:600;display:flex;align-items:center;gap:0.4rem;
+}
+.chip-pink {background:rgba(242,168,196,0.2);color:#b05585;border:1px solid rgba(242,168,196,0.4);}
+.chip-lav  {background:rgba(200,184,248,0.2);color:#7055c0;border:1px solid rgba(200,184,248,0.4);}
+.chip-mint {background:rgba(168,230,208,0.2);color:#2e8a66;border:1px solid rgba(168,230,208,0.4);}
+.chip-sky  {background:rgba(168,212,248,0.2);color:#2a6ea0;border:1px solid rgba(168,212,248,0.4);}
+.chip-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.7;}
+
+/* SECTIONS */
+section{position:relative;z-index:1;border-top:1px solid var(--border);}
+.section-wrap{max-width:1100px;margin:0 auto;padding:6rem 3rem;}
+.section-label{
+  font-family:var(--mono);font-size:0.68rem;
+  color:var(--muted);letter-spacing:0.25em;text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+h2{
+  font-family:var(--mono);
+  font-size:clamp(1.5rem,3vw,2.2rem);
+  font-weight:700;margin-bottom:3rem;line-height:1.2;
+}
+h2 .dim{color:var(--muted);font-weight:300;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.about-text p{color:var(--muted);margin-bottom:1rem;line-height:1.9;font-weight:300;}
+.about-text p strong{color:var(--text);font-weight:600;}
+
+.terminal{
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 4px 24px rgba(180,160,230,0.12);
+}
+.term-bar{
+  background:#f0eafa;padding:0.7rem 1rem;
+  display:flex;align-items:center;gap:0.4rem;
+  border-bottom:1px solid var(--border);
+}
+.tdot{width:10px;height:10px;border-radius:50%;}
+.tdot-r{background:#ff7b72;}.tdot-y{background:#f9c74f;}.tdot-g{background:#57cc99;}
+.term-title{font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin:0 auto;}
+.term-body{padding:1.2rem 1.4rem;font-family:var(--mono);font-size:0.78rem;line-height:2;}
+.t-prompt{color:#b07ee0;}.t-cmd{color:var(--text);}
+.t-key{color:#5b8fd4;}.t-val{color:#4faa8a;}
+.t-str{color:#c47bb0;}.t-num{color:#e08a50;}.t-brace{color:var(--muted);}
+.t-cursor{
+  display:inline-block;width:7px;height:0.9em;
+  background:var(--lavender);vertical-align:text-bottom;
+  animation:blink 1s step-end infinite;border-radius:1px;
+}
+@keyframes blink{50%{opacity:0;}}
+
+/* FIELDS */
+#fields{border-top:1px solid var(--border);}
+.fields-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;}
+.field-card{
+  background:var(--surface);
+  border:1.5px solid var(--border);border-radius:12px;
+  padding:1.8rem 1.6rem;
+  transition:transform 0.2s,box-shadow 0.2s;
+  position:relative;overflow:hidden;
+}
+.field-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:12px 12px 0 0;
+}
+.fc-web::before  {background:linear-gradient(90deg,var(--pink),var(--lavender));}
+.fc-data::before {background:linear-gradient(90deg,var(--lavender),var(--sky));}
+.fc-net::before  {background:linear-gradient(90deg,var(--sky),var(--mint));}
+.fc-sec::before  {background:linear-gradient(90deg,var(--peach),var(--pink));}
+.field-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(180,160,230,0.15);}
+.field-num{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;color:var(--muted);margin-bottom:0.6rem;}
+.field-title{font-family:var(--mono);font-size:1rem;font-weight:700;margin-bottom:0.6rem;}
+.field-desc{font-size:0.83rem;color:var(--muted);line-height:1.7;font-weight:300;}
+.field-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:1rem;}
+.ftag{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.2rem 0.5rem;border-radius:4px;
+  color:var(--muted);background:var(--bg);border:1px solid var(--border);
+}
+
+/* SKILLS */
+#skills{border-top:1px solid var(--border);}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.skill-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:10px;padding:1.3rem;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.skill-card:hover{transform:translateY(-3px);}
+.sk-web:hover {border-color:var(--pink);}
+.sk-data:hover{border-color:var(--lavender);}
+.sk-net:hover {border-color:var(--sky);}
+.sk-sec:hover {border-color:var(--peach);}
+.skill-label{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;}
+.skill-name {font-family:var(--mono);font-size:0.88rem;font-weight:700;margin-bottom:0.3rem;}
+.skill-desc {font-size:0.78rem;color:var(--muted);font-weight:300;}
+.skill-bar-wrap{margin-top:0.8rem;height:3px;background:var(--border);border-radius:3px;overflow:hidden;}
+.skill-bar{height:100%;border-radius:3px;}
+.sk-web  .skill-bar{background:linear-gradient(90deg,var(--pink),var(--lavender));}
+.sk-data .skill-bar{background:linear-gradient(90deg,var(--lavender),var(--sky));}
+.sk-net  .skill-bar{background:linear-gradient(90deg,var(--sky),var(--mint));}
+.sk-sec  .skill-bar{background:linear-gradient(90deg,var(--peach),var(--pink));}
+
+/* PROJECTS */
+#projects{border-top:1px solid var(--border);}
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;}
+.project-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.project-card:hover{transform:translateY(-4px);}
+.project-thumb{
+  height:150px;background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:1rem;font-family:var(--mono);font-size:0.68rem;
+  line-height:1.7;overflow:hidden;
+}
+.project-thumb pre{white-space:pre-wrap;width:100%;}
+.cp{color:#c47bb0;}.cb{color:#5b8fd4;}.cg{color:#4faa8a;}.cm{color:#bba8cc;}
+.project-body{padding:1.4rem;}
+.ptags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem;}
+.ptag{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.2rem 0.5rem;border-radius:4px;
+}
+.tp{background:rgba(242,168,196,0.15);color:#b05585;border:1px solid rgba(242,168,196,0.3);}
+.tl{background:rgba(200,184,248,0.15);color:#7055c0;border:1px solid rgba(200,184,248,0.3);}
+.ts{background:rgba(168,212,248,0.15);color:#2a6ea0;border:1px solid rgba(168,212,248,0.3);}
+.tm{background:rgba(168,230,208,0.15);color:#2e8a66;border:1px solid rgba(168,230,208,0.3);}
+.tpe{background:rgba(248,200,168,0.15);color:#a05820;border:1px solid rgba(248,200,168,0.3);}
+.project-title{font-family:var(--mono);font-size:0.92rem;font-weight:700;margin-bottom:0.4rem;}
+.project-desc {font-size:0.82rem;color:var(--muted);font-weight:300;}
+.project-links{display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+.plink{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.plink:hover{color:var(--text);}
+
+/* EDUCATION */
+#education{border-top:1px solid var(--border);}
+.edu-list{display:flex;flex-direction:column;gap:1rem;}
+.edu-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:10px;padding:1.5rem 1.8rem;
+  display:grid;grid-template-columns:1fr auto;align-items:start;gap:1rem;
+  transition:transform 0.2s;
+}
+.edu-card:hover{transform:translateY(-2px);}
+.edu-a1{border-left:3px solid var(--lavender);padding-left:1.2rem;}
+.edu-a2{border-left:3px solid var(--mint);padding-left:1.2rem;}
+.edu-degree{font-family:var(--mono);font-size:0.9rem;font-weight:700;margin-bottom:0.25rem;}
+.edu-school{font-size:0.85rem;color:var(--muted);font-weight:300;}
+.edu-detail{font-size:0.78rem;color:var(--muted);margin-top:0.4rem;font-weight:300;grid-column:1/-1;}
+.edu-badge{
+  font-family:var(--mono);font-size:0.68rem;font-weight:600;
+  padding:0.25rem 0.65rem;border-radius:20px;white-space:nowrap;
+}
+.b-lav{background:rgba(200,184,248,0.2);color:#7055c0;border:1px solid rgba(200,184,248,0.4);}
+.b-mint{background:rgba(168,230,208,0.2);color:#2e8a66;border:1px solid rgba(168,230,208,0.4);}
+
+/* CONTACT */
+#contact{border-top:1px solid var(--border);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-info p{color:var(--muted);margin-bottom:2rem;font-weight:300;line-height:1.9;}
+.contact-links{display:flex;flex-direction:column;gap:0.75rem;}
+.clink{
+  display:flex;align-items:center;gap:0.9rem;
+  font-family:var(--mono);font-size:0.8rem;
+  color:var(--muted);text-decoration:none;padding:0.8rem 1rem;
+  border:1.5px solid var(--border);border-radius:8px;
+  background:rgba(255,255,255,0.6);transition:all 0.2s;
+}
+.clink:hover{border-color:var(--lavender);color:var(--text);background:var(--surface);}
+.clink svg{width:16px;height:16px;flex-shrink:0;opacity:0.6;}
+.contact-form{display:flex;flex-direction:column;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;}
+label{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+input,textarea{
+  background:var(--surface);border:1.5px solid var(--border);
+  color:var(--text);font-family:var(--sans);font-size:0.9rem;
+  padding:0.75rem 1rem;border-radius:8px;outline:none;
+  transition:border-color 0.2s;resize:vertical;font-weight:400;
+}
+input:focus,textarea:focus{border-color:var(--lavender);}
+textarea{min-height:110px;}
+.form-submit{
+  font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;
+  text-transform:uppercase;background:var(--text);color:var(--bg);
+  border:none;padding:0.9rem 2rem;border-radius:8px;cursor:pointer;
+  transition:background 0.2s;align-self:flex-start;font-weight:700;
+}
+.form-submit:hover{background:#3d3060;}
+
+/* RESUME */
+.resume-bar{border-top:1px solid var(--border);position:relative;z-index:1;}
+.resume-inner{
+  max-width:1100px;margin:0 auto;padding:2.5rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;
+}
+.resume-text h3{font-family:var(--mono);font-size:0.95rem;font-weight:700;margin-bottom:0.2rem;}
+.resume-text p{font-size:0.82rem;color:var(--muted);font-weight:300;}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);text-align:center;
+  padding:2rem;font-family:var(--mono);font-size:0.7rem;
+  color:var(--muted);position:relative;z-index:1;
+}
+footer span{color:var(--text);font-weight:700;}
+
+/* FADE */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  #hero,.section-wrap{padding-left:1.5rem;padding-right:1.5rem;}
+  #hero{padding-top:7rem;}
+  .about-grid,.contact-grid,.fields-grid,.projects-grid{grid-template-columns:1fr;gap:1.5rem;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .resume-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">
+    <span class="bracket">{</span> umme_kulthum <span class="bracket">}</span>
+    <span class="ndot"></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#fields">fields</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#education">education</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-pre">// open to opportunities · GPA 4.5/4.5 · Two-time School Dux</div>
+  <h1>
+    <span class="h1-dim">Hi, I'm</span> <span class="h1-pink">Umme Kulthum.</span><br>
+    <span class="h1-blue">Soon to be IT Graduate</span> <span class="h1-dim">&amp;</span><br>
+    <span class="h1-green">Problem Solver.</span>
+  </h1>
+  <p class="hero-sub">
+    I work across <strong>web development, data science, networking, and penetration testing</strong> —
+    because in the real world, everything connects. Based in Fiji, building for the world.
+  </p>
+  <div class="hero-ctas">
+    <a href="#projects" class="btn btn-primary">View my work</a>
+    <a href="#contact" class="btn btn-outline">Get in touch</a>
+  </div>
+  <div class="specialisms" style="margin-top:1.5rem;">
+    <span class="chip chip-pink"><span class="chip-dot"></span>Web Dev</span>
+    <span class="chip chip-lav"><span class="chip-dot"></span>Data Science</span>
+    <span class="chip chip-sky"><span class="chip-dot"></span>Networking</span>
+    <span class="chip chip-mint"><span class="chip-dot"></span>Pen Testing</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-label">// 01. about_me</div>
+    <h2>Who I <span class="dim">am.</span></h2>
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <p>I'm a final-year BIT student at the <strong>University of Fiji, Lautoka Campus</strong>, studying web development, data science, networking, and penetration testing — graduating April 2027.</p>
+        <p>I'm a <strong>two-time school Dux</strong> (Year 8 and Year 13), former Head Girl, and Senior Prefect. I bring the same discipline and attention to detail from those years into everything I build.</p>
+        <p>Alongside my studies I run my own <strong>freelance painting and art business</strong> — managing commissions, pricing, and client delivery. I'm currently building a website for it too.</p>
+        <p>I speak <strong>English and Hindi fluently</strong>, and won 1st Place in the Urdu Oratory Competition two years running. I'm always looking to grow fast and contribute meaningfully.</p>
+      </div>
+      <div class="terminal fade-up" style="transition-delay:0.15s">
+        <div class="term-bar">
+          <div class="tdot tdot-r"></div>
+          <div class="tdot tdot-y"></div>
+          <div class="tdot tdot-g"></div>
+          <span class="term-title">umme.json</span>
+        </div>
+        <div class="term-body">
+          <div><span class="t-prompt">$ </span><span class="t-cmd">cat umme.json</span></div>
+          <div><span class="t-brace">{</span></div>
+          <div>&nbsp; <span class="t-key">"name"</span>: <span class="t-str">"Umme Kulthum Binth Abdul Hakim"</span>,</div>
+          <div>&nbsp; <span class="t-key">"university"</span>: <span class="t-str">"University of Fiji"</span>,</div>
+          <div>&nbsp; <span class="t-key">"campus"</span>: <span class="t-str">"Lautoka, Fiji"</span>,</div>
+          <div>&nbsp; <span class="t-key">"gpa"</span>: <span class="t-num">4.5</span>,</div>
+          <div>&nbsp; <span class="t-key">"graduating"</span>: <span class="t-str">"April 2027"</span>,</div>
+          <div>&nbsp; <span class="t-key">"languages"</span>: [<span class="t-str">"English"</span>, <span class="t-str">"Hindi"</span>],</div>
+          <div>&nbsp; <span class="t-key">"status"</span>: <span class="t-str">"open to work"</span>,</div>
+          <div>&nbsp; <span class="t-key">"also"</span>: <span class="t-str">"freelance artist"</span></div>
+          <div><span class="t-brace">}</span></div>
+          <div style="margin-top:0.5rem"><span class="t-prompt">$ </span><span class="t-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIELDS -->
+<section id="fields">
+  <div class="section-wrap">
+    <div class="section-label">// 02. my_fields</div>
+    <h2>What I <span class="dim">study.</span></h2>
+    <div class="fields-grid">
+      <div class="field-card fc-web fade-up">
+        <div class="field-num">// field_01</div>
+        <div class="field-title">Web Design and Programming</div>
+        <div class="field-desc">Building responsive, accessible websites using HTML, CSS, and JavaScript. Focused on clean UI, proper structure, and real user experience.</div>
+        <div class="field-tags">
+          <span class="ftag">HTML5</span><span class="ftag">CSS3</span><span class="ftag">JavaScript</span><span class="ftag">Responsive</span><span class="ftag">DOM</span>
+        </div>
+      </div>
+      <div class="field-card fc-data fade-up" style="transition-delay:0.08s">
+        <div class="field-num">// field_02</div>
+        <div class="field-title">Practical Data Science</div>
+        <div class="field-desc">Analysing real datasets using R : cleaning messy data, building visualisations, running EDA, and turning numbers into business insights.</div>
+        <div class="field-tags">
+          <span class="ftag">R</span><span class="ftag">dplyr</span><span class="ftag">ggplot2</span><span class="ftag">Statistics</span>
+        </div>
+      </div>
+      <div class="field-card fc-net fade-up" style="transition-delay:0.14s">
+        <div class="field-num">// field_03</div>
+        <div class="field-title">Networking</div>
+        <div class="field-desc">Understanding how data moves : OSI model, network topologies (bus, star, mesh, tree), routing, switching, DHCP</div>
+        <div class="field-tags">
+          <span class="ftag">OSI Model</span><span class="ftag">TCP/IP</span><span class="ftag">DHCP</span><span class="ftag">Topologies</span><span class="ftag">Routing</span>
+        </div>
+      </div>
+      <div class="field-card fc-sec fade-up" style="transition-delay:0.2s">
+        <div class="field-num">// field_04</div>
+        <div class="field-title">Penetration Testing</div>
+        <div class="field-desc">Ethical hacking fundamentals : setting up Kali Linux labs, running Nmap scans, passive &amp; active OSINT, and vulnerability assessment with Nessus.</div>
+        <div class="field-tags">
+          <span class="ftag">Kali Linux</span><span class="ftag">Nmap</span><span class="ftag">Metasploit</span><span class="ftag">OSINT</span><span class="ftag">Nessus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label">// 03. skills</div>
+    <h2>Tools I <span class="dim">use.</span></h2>
+    <div class="skills-grid">
+      <div class="skill-card sk-web fade-up">
+        <div class="skill-label">// web</div>
+        <div class="skill-name">HTML &amp; CSS</div>
+        <div class="skill-desc">Layouts, Flexbox, Grid, animations, forms.</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+      </div>
+      <div class="skill-card sk-web fade-up" style="transition-delay:0.05s">
+        <div class="skill-label">// web</div>
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-desc">DOM, events, fetch, interactive UIs.</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div>
+      </div>
+      <div class="skill-card sk-data fade-up" style="transition-delay:0.1s">
+        <div class="skill-label">// data</div>
+        <div class="skill-name">R Programming</div>
+        <div class="skill-desc">dplyr, ggplot2, text mining.</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div>
+      </div>
+      <div class="skill-card sk-net fade-up" style="transition-delay:0.13s">
+        <div class="skill-label">// networking</div>
+        <div class="skill-name">Network Concepts</div>
+        <div class="skill-desc">OSI, TCP/IP, topologies, Cisco Packet Tracer.</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div>
+      </div>
+      <div class="skill-card sk-sec fade-up" style="transition-delay:0.16s">
+        <div class="skill-label">// security</div>
+        <div class="skill-name">Pen Testing</div>
+        <div class="skill-desc">Kali Linux, Nmap, Metasploit, Responder.</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:65%"></div></div>
+      </div>
+      <div class="skill-card sk-web fade-up" style="transition-delay:0.19s">
+        <div class="skill-label">// tools</div>
+        <div class="skill-name">Dev Tools</div>
+        <div class="skill-desc">Git, VS Code, Notepad, MS Office.</div>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label">// 04. projects</div>
+    <h2>Things I've <span class="dim">built.</span></h2>
+    <div class="projects-grid">
+
+      <div class="project-card fade-up">
+        <div class="project-thumb">
+<pre><span class="cp">&lt;section</span> <span class="cb">class=</span><span class="cg">"hero"</span><span class="cp">&gt;</span>
+  <span class="cp">&lt;h1&gt;</span><span class="cm">Hello, World</span><span class="cp">&lt;/h1&gt;</span>
+  <span class="cp">&lt;p</span> <span class="cb">class=</span><span class="cg">"tagline"</span><span class="cp">&gt;</span>
+    <span class="cm">Web Dev · Fiji</span>
+  <span class="cp">&lt;/p&gt;</span>
+<span class="cp">&lt;/section&gt;</span></pre>
+        </div>
+        <div class="project-body">
+          <div class="ptags"><span class="ptag tp">HTML</span><span class="ptag tl">CSS</span><span class="ptag ts">JavaScript</span></div>
+          <div class="project-title">Personal Portfolio &amp; Business Website</div>
+          <div class="project-desc">Designing and building a website to showcase and sell commissioned artwork — applying HTML, CSS, and JavaScript front-end skills to a real business need.</div>
+          <div class="project-links">
+            <a href="https://github.com/ummekulthum426" class="plink" target="_blank">→ GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up" style="transition-delay:0.1s">
+        <div class="project-thumb">
+<pre><span class="cp">Imports</span> <span class="cg">System.Windows.Forms</span>
+
+<span class="cp">Public Class</span> <span class="cm">DashboardForm</span>
+  <span class="cp">Private Sub</span> <span class="cm">btnfarm_Click</span>(
+    sender <span class="cp">As</span> Object,
+    e <span class="cp">As</span> EventArgs)
+    <span class="cp">Using</span> f <span class="cp">As New</span> <span class="cm">FarmForm</span>()
+      f.ShowDialog(Me)
+    <span class="cp">End Using</span>
+  <span class="cp">End Sub</span>
+<span class="cp">End Class</span></pre>
+        </div>
+        <div class="project-body">
+          <div class="ptags"><span class="ptag tl">VB.NET</span><span class="ptag ts">Windows Forms</span><span class="ptag tm">OOP</span></div>
+          <div class="project-title">CaneCare</div>
+          <div class="project-desc">Co-developed a Windows desktop app to help Fijian sugarcane farmers manage crops, track yields, and organise farm records — addressing a real agricultural need using OOP principles.</div>
+          <div class="project-links">
+            <a href="https://github.com/ummekulthum426" class="plink" target="_blank">→ GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up" style="transition-delay:0.15s">
+        <div class="project-thumb">
+<pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="cp">&lt;html&gt;</span>
+  <span class="cb">&lt;head&gt;</span>
+    <span class="cm">&lt;title&gt;My Website&lt;/title&gt;</span>
+    <span class="cg">&lt;link rel="stylesheet"</span>
+      <span class="cg">href="style.css"&gt;</span>
+  <span class="cb">&lt;/head&gt;</span>
+<span class="cp">&lt;/html&gt;</span></pre>
+        </div>
+        <div class="project-body">
+          <div class="ptags"><span class="ptag tp">HTML</span><span class="ptag tl">CSS</span></div>
+          <div class="project-title">Static Website — Year 13 Project</div>
+          <div class="project-desc">Independently built a fully functional static website using HTML &amp; CSS as a Year 13 Computer Studies project — the foundation that started it all.</div>
+          <div class="project-links">
+            <a href="https://github.com/ummekulthum426" class="plink" target="_blank">→ GitHub</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-wrap">
+    <div class="section-label">// 05. education</div>
+    <h2>Where I <span class="dim">studied.</span></h2>
+    <div class="edu-list">
+      <div class="edu-card edu-a1 fade-up">
+        <div>
+          <div class="edu-degree">Bachelor of Information Technology</div>
+          <div class="edu-school">University of Fiji — Lautoka Campus, Fiji Islands</div>
+          <div class="edu-detail">GPA: 4.5/4.5 · Runner-up, Team Mathematics Competition (2025) · Courses: Web Design &amp; Programming · Practical Data Science · Cybersecurity &amp; Pen Testing · Computer Networking</div>
+        </div>
+        <div class="edu-badge b-lav">2024 – 2027</div>
+      </div>
+      <div class="edu-card edu-a2 fade-up" style="transition-delay:0.08s">
+        <div>
+          <div class="edu-degree">Secondary Education</div>
+          <div class="edu-school">Holy Family Secondary School, Fiji</div>
+          <div class="edu-detail">Dux of School — Year 13 · Year 13: 372/400 · Year 12: 367/400 · Senior Prefect (Yr 12 &amp; 13) · Year 13 CS Project: Static Website in HTML &amp; CSS</div>
+        </div>
+        <div class="edu-badge b-mint">2019 – 2023</div>
+      </div>
+      <div class="edu-card fade-up" style="transition-delay:0.14s; border-left:3px solid var(--peach); padding-left:1.2rem;">
+        <div>
+          <div class="edu-degree">Primary Education</div>
+          <div class="edu-school">Labasa Muslim Primary School, Fiji</div>
+          <div class="edu-detail">Dux of School — Year 8 · Head Girl — Year 8 · Deputy Head Girl — Year 7 · 1st Place, Urdu Oratory Competition (Year 7 &amp; 8)</div>
+        </div>
+        <div class="edu-badge" style="background:rgba(248,200,168,0.2);color:#a05820;border:1px solid rgba(248,200,168,0.4);">2011 – 2018</div>
+      </div>
+      <div class="edu-card edu-a1 fade-up" style="transition-delay:0.2s;">
+        <div>
+          <div class="edu-degree">Computer Hardware Basics</div>
+          <div class="edu-school">Cisco Networking Academy — Certification</div>
+          <div class="edu-detail">Covers hardware components, device maintenance, laptop and mobile device functions, and safety standards.</div>
+        </div>
+        <div class="edu-badge b-lav">Oct 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-label">// 06. contact</div>
+    <h2>Let's <span class="dim">connect.</span></h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>I'm looking for internship and junior IT roles. If you have an opportunity, a project, or just want to say hi , I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="mailto:ummekulthum426@gmail.com" class="clink">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg>
+            ummekulthum426@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/umme-kulthum-4951b5404/" target="_blank" class="clink">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
+            linkedin.com/in/Umme Kulthum
+          </a>
+          <a href="https://github.com/ummekulthum426" target="_blank" class="clink">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            github.com/ummekulthum426
+          </a>
+        </div>
+      </div>
+      <form class="contact-form fade-up" action="https://formspree.io/f/meevgwwn" method="POST">
+  <div class="form-group">
+    <label>Your name</label>
+    <input type="text" name="name" placeholder="Jane Smith" required>
+  </div>
+
+  <div class="form-group">
+    <label>Your email</label>
+    <input type="email" name="email" placeholder="jane@company.com" required>
+  </div>
+
+  <div class="form-group">
+    <label>Message</label>
+    <textarea name="message" placeholder="I'd like to discuss an opportunity..." required></textarea>
+  </div>
+
+  <button type="submit" class="form-submit">Send message →</button>
+</form>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME -->
+<div class="resume-bar">
+  <div class="resume-inner">
+    <div class="resume-text">
+      <h3>// My CV.pdf</h3>
+      <p>Full overview of my skills, experience, and education.</p>
+    </div>
+    <a href="mycv.pdf" download class="btn btn-primary">↓ Download CV</a>
+  </div>
+</div>
+
+<footer>
+  designed &amp; built by <span>Umme Kulthum</span> · University of Fiji, Lautoka · 2026
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '✓ Message sent!';
+    btn.style.background = '#4faa8a';
+    setTimeout(() => {
+      btn.textContent = 'Send message →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
